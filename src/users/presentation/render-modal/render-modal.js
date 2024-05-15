@@ -1,11 +1,26 @@
 import modalHTML from './render-modal.html?raw';
 import './render-modal.css';
+import { User } from '../../models/user';
+import { getUserById } from '../../use-case/get-user-by-id';
 
 let modal, form;
+let loadeUser = {};
 
+/**
+ * 
+ * @param {String|Number} id 
+ */
 //TODO Cargar usuario por id
-export const showModal = () => {
+export const showModal = async(id) => {
     modal?.classList.remove('hide-modal');
+    loadeUser = {};
+
+    //Si no existe el id no se hace nada
+    if(!id) return;
+
+    //Si existe el id
+    const user = await getUserById(id);
+    setFormValue(user);
 }
 
 export const hideModal = () => {
@@ -14,6 +29,19 @@ export const hideModal = () => {
     //TODO Resertear el modal
     form?.reset();
 }
+/**
+ * 
+ * @param {User} user 
+ */
+const setFormValue = (user) => {
+    form.querySelector('[name="firstName"]').value = user.firstName;
+    form.querySelector('[name="lastName"]').value = user.lastName;
+    form.querySelector('[name="balance"]').value = user.balance;
+    form.querySelector('[name="isActive"]').checked = user.isActive;
+    loadeUser = user;
+
+}
+
 
 /**
  * 
@@ -40,7 +68,7 @@ export const renderModal = (element, saveUserCallback) => {
         event.preventDefault();
         
         const formData = new FormData(form);
-        const userLike = {};
+        const userLike = {...loadeUser};
         
         for (const [key, value] of formData) {
             //['firstName', 'Susan'] esto es lo que devuelve la key y el valor

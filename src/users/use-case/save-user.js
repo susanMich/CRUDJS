@@ -8,7 +8,7 @@ export const saveUser = async(userLike) => {
     
     const user = new User(userLike);
 
-    if(!user.firstName || user.lastName) 
+    if(!user.firstName || !user.lastName) 
         throw 'First y last Name are required';
     //TODO Aquí falta un mapper
     const userToSave = userModelToLocalhost(user);

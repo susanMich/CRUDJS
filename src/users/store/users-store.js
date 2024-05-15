@@ -11,7 +11,7 @@ const loadNextPage = async() => {
 
    state.currentPage = state.currentPage + 1;
    state.users = users;
-   console.log(state.users);
+   //console.log(state.users);
 }
 
 const loadPreviosPage = async() => {

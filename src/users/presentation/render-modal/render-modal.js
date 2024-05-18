@@ -68,6 +68,9 @@ export const renderModal = (element, saveUserCallback) => {
         event.preventDefault();
         
         const formData = new FormData(form);
+        if(!formData.get('isActive')){
+            formData.append('isActive', 'off');
+        }
         const userLike = {...loadeUser};
         
         for (const [key, value] of formData) {
